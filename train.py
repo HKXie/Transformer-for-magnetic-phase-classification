@@ -13,6 +13,7 @@ import numpy as np
 from einops import rearrange
 import torchvision
 from dataloader import data_provider
+import metrics
 
 
 
@@ -20,7 +21,7 @@ class Vit_train_task():
     def __init__(self, model, configs):
         self.configs = configs
         self.model = model
-        self.device = torch.device("cuda" if configs.cuda else "cpu")
+        self.device = configs.device#torch.device("cuda" if configs.cuda else "cpu")
 
     def _select_optimizer(self):
         model_optim = optim.Adam(self.model.parameters(), lr=self.configs.learning_rate)
@@ -69,12 +70,15 @@ class Vit_train_task():
                 #           '{:6.4f}'.format(loss.item()))
             # loss_history.append(The_loss / len(data_loader))  # loss.item()
 
-            if epoch % 10 == 0 or epoch <= 5:
+            if epoch % 5 == 0 or epoch <= 5:
                 print('Epoch {}: Average train loss : {:.5f}'.format(epoch, The_loss / len(train_load)))
 
-            vali_loss, vali_accuracy = self.vali(test_load, criterion)
-            if epoch % 10 == 0 or epoch <= 5:
-                print('Epoch {}: '.format(epoch) + 'Average valid loss: ' + '{:.5f}'.format(vali_loss) +' Accuracy:'+'{:4.2f}'.format(vali_accuracy) + '%\n')
+            vali_loss, vali_accuracy, vali_accuracy_sk, recall_sk, f1_sk = self.vali(test_load, criterion)
+            if epoch % 5 == 0 or epoch <= 5:
+                print('Epoch {}: '.format(epoch) + 'Average valid loss: ' + '{:.5f}'.format(vali_loss) +
+                      ' Accuracy:'+'{:4.2f}'.format(vali_accuracy) + ' Accuracy_sk:'+'{:4.2f}'.format(vali_accuracy_sk) +
+                      ' Recall_sk:'+f'{recall_sk}' +
+                      f' f1_sk:{f1_sk}'+'\n')
 
     def vali(self, vali_loader, criterion):
     # def evaluate(self, data_loader, loss_history, Accuracy_rate, epoch):
@@ -83,6 +87,9 @@ class Vit_train_task():
         total_samples = len(vali_loader) * vali_loader.batch_size  # len(data_loader.dataset)
         correct_samples = 0
         total_loss = 0
+        Accuracy_sk = 0
+        Recall_sk = 0
+        f1_sk = 0
 
         # T_error=[]
 
@@ -110,6 +117,10 @@ class Vit_train_task():
                 # correct_samples += predicted.eq(target.argmax(axis=1)).sum().item()
                 correct_samples += pred.eq(target).sum()
 
+                Accuracy_sk += metrics.accuracy_score(pred.cpu().numpy(), target.cpu().numpy())
+                Recall_sk += metrics.Recall_sk(pred.cpu().numpy(), target.cpu().numpy())
+                f1_sk += metrics.f1_score_sk(pred.cpu().numpy(), target.cpu().numpy())
+
                 # if predicted.eq(target.argmax(axis=1)).sum().item() < target.size(0):
                 #     cha=abs(predicted-target.argmax(axis=1))
                 #     for i in cha*T_tensor:
@@ -118,6 +129,9 @@ class Vit_train_task():
 
         avg_loss = total_loss / len(vali_loader)  # total_samples
         Accuracy = (100.0 * correct_samples / total_samples).item()
+        Accuracy_sk = Accuracy_sk/len(vali_loader)
+        Recall_sk = Recall_sk/len(vali_loader)
+        f1_sk = f1_sk/len(vali_loader)
         # loss_history.append(avg_loss)
         # Accuracy_rate.append(Accuracy)
 
@@ -128,5 +142,5 @@ class Vit_train_task():
         #           '{:4.2f}'.format(Accuracy) + '%)\n')
             # print(T_error)
 
-        return avg_loss, Accuracy
+        return avg_loss, Accuracy, Accuracy_sk, Recall_sk, f1_sk
 
