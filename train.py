@@ -20,8 +20,9 @@ import metrics
 class Vit_train_task():
     def __init__(self, model, configs):
         self.configs = configs
-        self.model = model
+        # self.model = model
         self.device = configs.device#torch.device("cuda" if configs.cuda else "cpu")
+        self.model = model.to(self.device)
 
     def _select_optimizer(self):
         model_optim = optim.Adam(self.model.parameters(), lr=self.configs.learning_rate)

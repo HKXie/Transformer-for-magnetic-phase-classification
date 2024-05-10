@@ -45,7 +45,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     args.cuda = not args.no_cuda and torch.cuda.is_available()
-    device = torch.device("cuda" if args.cuda else "cpu")
+    args.device = torch.device("cuda" if args.cuda else "cpu")
 
     Model_vit = Transformer_2nd.ViT(image_size=args.imgage_size, patch_size=args.imgage_patch, num_classes=args.num_class, channels=args.channels,
             dim=24, depth=4, heads=8, mlp_dim=args.mlp_dim, dropout_rate=0.4,token_class=128)
