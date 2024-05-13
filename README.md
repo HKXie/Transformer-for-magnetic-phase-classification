@@ -3,5 +3,10 @@ The train and test data can be downloaded from https://box.nju.edu.cn/d/f243c966
 
 Data also can be downloaded by
 ```
-sh data.sh
+bash data.sh
+```
+To train the model
+
+```
+python run.py
 ```
