@@ -2,10 +2,8 @@ import torch
 # import torchvision
 from torch import nn
 import time
-import torch
 import torch.nn.functional as F
 from torch import optim
-from torch import nn
 from einops import rearrange
 # from torchvision import datasets, transforms
 from torch.utils.data import Dataset, SubsetRandomSampler, DataLoader
@@ -24,7 +22,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--data_path', type=str, default='data',help='')
     parser.add_argument('--train_data_name', type=str,
-                        default=['124_MT_20size_1T_jiangede.hdf5',],help='')
+                        default=['124_MT_20size_1.5T_jiangede.hdf5',],help='')
 
     parser.add_argument('--test_data_name', type=str,
                         default=['124_MT_20size_2T_jiangede.hdf5',],help='')
