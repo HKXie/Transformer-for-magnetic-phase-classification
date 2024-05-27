@@ -1,0 +1,7 @@
+data_path = data
+
+batch_size=128
+imgage_size=20
+imgage_patch=4
+channels=2
+num_class=2

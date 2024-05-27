@@ -1,0 +1,8 @@
+ConfigArgParse==1.7
+einops==0.8.0
+h5py==3.11.0
+matplotlib==3.8.4
+numpy==1.26.4
+scikit_learn==1.4.2
+torch==2.2.1+cu118
+torchvision==0.17.1+cu118
