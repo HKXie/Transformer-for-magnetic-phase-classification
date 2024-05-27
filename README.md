@@ -8,5 +8,5 @@ bash data.sh
 To train the model
 
 ```
-python run.py
+python run.py --config configs.txt
 ```
