@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--config', is_config_file=True, default='configs.txt',
                         help='config file path')
-    parser.add_argument('--data_path', type=str, default='data',help='')
+    parser.add_argument('--data_path', type=str, default='data/magnetic_phase_data',help='')
     parser.add_argument('--train_data_name', type=str,
                         default=['124_MT_20size_1.5T_jiangede.hdf5',],help='')
 

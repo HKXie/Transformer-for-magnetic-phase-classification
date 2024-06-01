@@ -1,4 +1,4 @@
-data_path = data
+data_path = data/magnetic_phase_data
 
 batch_size=128
 imgage_size=20

@@ -35,7 +35,7 @@ def add_deep_argment():
         # parser.add_argument('--mlp-dim', type=int, default=128, help='_')
         # parser.add_argument('--num_token',type=int, default=96, help='_')
         # parser.add_argument('--dropout-rate', type=int, default=0.3, help='_')
-        parser.add_argument('--data_path', type=str, default='data',help='')
+        parser.add_argument('--data_path', type=str, default='data/magnetic_phase_data',help='')
         parser.add_argument('--train_data_name', type=str,
                         default=['124_MT_20size_1.5T_jiangede.hdf5',],help='')
 
