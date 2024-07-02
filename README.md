@@ -5,7 +5,7 @@ Data also can be downloaded by
 ```
 bash data.sh
 ```
-To train the model
+To train and validate the model
 
 ```
 python run.py --config configs.txt
